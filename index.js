@@ -39,13 +39,13 @@ $(document).ready(function() {
             case 'sum':
                 result = 0;
                 for (let i = startI; i <= endI; i++) {
-                    result += eval(func.replace(/i/g, i));
+                    result += eval(func.replace(/i/g, i).replace(/\^/g, '**'));
                 }
                 break;
             case 'prod':
                 result = 1;
                 for (let i = startI; i <= endI; i++) {
-                    result *= eval(func.replace(/i/g, i));
+                    result *= eval(func.replace(/i/g, i).replace(/\^/g, '**'));
                 }
                 break;
             case 'comb':
@@ -53,7 +53,7 @@ $(document).ready(function() {
                 for (let i = startI; i <= endI; i++) {
                     let product = 1;
                     for (let j = startJ; j <= endJ; j++) {
-                        product *= eval(func.replace(/i/g, i).replace(/j/g, j));
+                        product *= eval(func.replace(/i/g, i).replace(/j/g, j).replace(/\^/g, '**'));
                     }
                     result += product;
                 }
@@ -62,7 +62,7 @@ $(document).ready(function() {
                 result = 0;
                 for (let i = startI; i <= endI; i++) {
                     for (let j = startJ; j <= endJ; j++) {
-                        result += eval(func.replace(/i/g, i).replace(/j/g, j));
+                        result += eval(func.replace(/i/g, i).replace(/j/g, j).replace(/\^/g, '**'));
                     }
                 }
                 break;
@@ -70,7 +70,7 @@ $(document).ready(function() {
                 result = 1;
                 for (let i = startI; i <= endI; i++) {
                     for (let j = startJ; j <= endJ; j++) {
-                        result *= eval(func.replace(/i/g, i).replace(/j/g, j));
+                        result *= eval(func.replace(/i/g, i).replace(/j/g, j).replace(/\^/g, '**'));
                     }
                 }
                 break;
