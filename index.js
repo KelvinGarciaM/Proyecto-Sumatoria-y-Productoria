@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // Función para mostrar/ocultar campos según la operación seleccionada
     function toggleInputs() {
         const operation = $('#operation').val();
@@ -23,15 +23,26 @@ $(document).ready(function() {
     toggleInputs();
 
     // Calcular el resultado al enviar el formulario
-    $('#form-data').on('submit', function(event) {
+    $('#form-data').on('submit', function (event) {
         event.preventDefault();
 
         const operation = $('#operation').val();
         const func = $('#function').val();
+        const regexFunc = /^[ij0-9+\-*/^().\s]+$/; // Permite solo i, j, números, operadores y paréntesis
+        if (!regexFunc.test(func)) {
+            $('#result').text("Solo se aceptan los caracteres i, j, números, operadores y paréntesis").css("color", "red");
+          return; 
+        }
+
         const startI = parseInt($('#start-i').val());
         const endI = parseInt($('#end-i').val());
         const startJ = parseInt($('#start-j').val());
-        const endJ = parseInt($('#end-j').val());
+        const endJ = $('#end-j').val();
+        const regexEndJ = /^[i0-9+\-*/^().\s]+$/; 
+        if (!regexEndJ.test(endJ)) {
+            $('#result').text(`Solo se aceptan los caracteres i, números, operadores y paréntesis`).css("color", "red");;
+            return;
+        }
 
         let result = 0;
 
@@ -52,7 +63,8 @@ $(document).ready(function() {
                 result = 0;
                 for (let i = startI; i <= endI; i++) {
                     let product = 1;
-                    for (let j = startJ; j <= endJ; j++) {
+                    let endj = parseInt(endJ.replace(/i/g, i));
+                    for (let j = startJ; j <= endj; j++) {
                         product *= eval(func.replace(/i/g, i).replace(/j/g, j).replace(/\^/g, '**'));
                     }
                     result += product;
@@ -61,7 +73,8 @@ $(document).ready(function() {
             case '2sum':
                 result = 0;
                 for (let i = startI; i <= endI; i++) {
-                    for (let j = startJ; j <= endJ; j++) {
+                    let endj = parseInt(endJ.replace(/i/g, i));
+                    for (let j = startJ; j <= endj; j++) {
                         result += eval(func.replace(/i/g, i).replace(/j/g, j).replace(/\^/g, '**'));
                     }
                 }
@@ -69,13 +82,14 @@ $(document).ready(function() {
             case '2prod':
                 result = 1;
                 for (let i = startI; i <= endI; i++) {
-                    for (let j = startJ; j <= endJ; j++) {
+                    let endj = parseInt(endJ.replace(/i/g, i));
+                    for (let j = startJ; j <= endj; j++) {
                         result *= eval(func.replace(/i/g, i).replace(/j/g, j).replace(/\^/g, '**'));
                     }
                 }
                 break;
         }
 
-        $('#result').text(`Resultado: ${result}`);
+        $('#result').text(`Resultado: ${result}`).css("color", "black");
     });
 });
